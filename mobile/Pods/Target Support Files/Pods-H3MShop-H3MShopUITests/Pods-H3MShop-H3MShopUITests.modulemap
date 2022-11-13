@@ -1,6 +1,0 @@
-framework module Pods_H3MShop_H3MShopUITests {
-  umbrella header "Pods-H3MShop-H3MShopUITests-umbrella.h"
-
-  export *
-  module * { export * }
-}
