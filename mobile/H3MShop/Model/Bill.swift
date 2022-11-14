@@ -44,6 +44,34 @@ class ProductBill: Codable,Identifiable{
     }
 }
 
+
+
+
+
+
+
+class SizeBill: Codable,Identifiable {
+    var _id: String
+    var name: String
+    
+    init(_id: String = "" ,name: String = "" ){
+        self._id = _id
+        self.name = name
+    }
+}
+
+class ColorBill: Codable,Identifiable {
+    var _id: String
+    var name: String
+    
+    init(_id: String = "" ,name: String = "" ){
+        self._id = _id
+        self.name = name
+    }
+}
+
+
+//MARK: id_product
 class ProductHistory: Codable {
     var _id: String
     var name: String
@@ -51,28 +79,47 @@ class ProductHistory: Codable {
 }
 
 
+//MARK: product
 class ProductBillResponse: Codable,Identifiable{
     var _id: String
     var id_product: ProductHistory
-    var size: Sizes
-    var color: Colors
+    var size: SizeBill
+    var color: ColorBill
     var number: Int
     var price: Int
 }
+
+class InfoAddressBill: Codable,Identifiable{
+    
+    var _id: String
+    var address: AddressDetail
+    var name: String
+    var phone: String
+    
+    init(_id: String = "",address: AddressDetail = AddressDetail(), name: String = "" , phone: String = "") {
+        self._id = _id
+        self.address = address
+        self.name = name
+        self.phone = phone
+    }
+}
+
+
 
 
 
 class HistoryBill:Codable,Identifiable {
     var _id: String
     var product: [ProductBillResponse]
-    var payment_method: PaymentMethod
+    var payment_method: PaymentMethodBill?
+    var delivery: DeliveryBill
     var totalPrice: Int
     var productPrice: Int
     var shipPrice: Int
     var createAt: String
-    var id_info: InfoAddress
+    var id_info: InfoAddressBill
     
-    init(_id: String = "" , product: [ProductBillResponse] = [], payment_method: PaymentMethod = PaymentMethod(), totalPrice: Int = 0, productPrice: Int = 0, shipPrice: Int = 0, createAt: String = "", id_info: InfoAddress = InfoAddress()) {
+    init(_id: String = "" , product: [ProductBillResponse] = [], payment_method: PaymentMethodBill = PaymentMethodBill(), totalPrice: Int = 0, productPrice: Int = 0, shipPrice: Int = 0, createAt: String = "", id_info: InfoAddressBill = InfoAddressBill(),delivery: DeliveryBill = DeliveryBill()) {
         self._id = _id
         self.product = product
         self.payment_method = payment_method
@@ -81,8 +128,31 @@ class HistoryBill:Codable,Identifiable {
         self.shipPrice = shipPrice
         self.createAt = createAt
         self.id_info = id_info
+        self.delivery = delivery
     }
 }
+
+class PaymentMethodBill: Codable,Identifiable {
+
+    var _id: String
+    var name: String
+    
+    init(_id: String = "" , name: String = "" ) {
+        self._id = _id
+        self.name = name
+    }
+}
+
+class DeliveryBill: Codable{
+    var _id: String
+    var name: String
+    
+    init(_id: String = "" , name: String = "" ) {
+        self._id = _id
+        self.name = name
+    }
+}
+
 
 class History: Codable,Identifiable {
     var id_status: Status
@@ -103,21 +173,23 @@ class Status: Codable {
 }
 
 
-class Bill: Codable {
+class Bill: Codable,Identifiable {
     var _id: String
-    var bills: [HistoryBill]
+    var id_bill: HistoryBill
     var history : [History]
     
-    init(_id: String = "" , bills: [HistoryBill] = [], history: [History] = []) {
+    init(_id: String = "" , id_bill: HistoryBill, history: [History] = []) {
         self._id = _id
-        self.bills = bills
+        self.id_bill = id_bill
         self.history = history
     }
 }
 
+
+
+
+
 class BillResponse: Codable {
     var message: String
-    var bills: [Bill]
+    var bill: [Bill]
 }
-
-

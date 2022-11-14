@@ -10,21 +10,14 @@ import Kingfisher
 
 struct ProfileView: View {
     
-    
-    @EnvironmentObject var authViewModel : Authentincation
+    @StateObject var authViewModel = Authentincation()
     @State var isLogout = false
-    @State var isLoad = true
     
     var customSize = CustomSize()
     
     var body: some View {
         VStack{
             
-            if isLoad {
-                Loader()
-            }
-            
-            else{
                 VStack{
                     header
                     
@@ -48,13 +41,6 @@ struct ProfileView: View {
                     Spacer()
                     
                 }
-            }
-            
-        }
-        .onAppear(){
-            authViewModel.getAddress()
-            authViewModel.getUser()
-            isLoad = false
             
         }
         .background(Color(ColorsName.white.rawValue).opacity(0.05))
@@ -68,7 +54,6 @@ struct ProfileView: View {
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         ProfileView()
-            .environmentObject(Authentincation())
     }
 }
 
@@ -118,13 +103,13 @@ extension ProfileView{
                 Circle()
                     .frame(width: 12,height: 12)
                     .foregroundColor(Color(ColorsName.green.rawValue))
-                    .offset(y:8)
                 Text("Activate Now")
                     .modifier(Fonts(fontName: .outfit_light,
                                     colorName: .black,
                                     size: 15))
-                    .offset(y:8)
             })
+            .padding(.top,-8)
+            .padding(.bottom)
         }
     }
     var profileRow: some View {

@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ChangePasswordView: View {
     
+    @StateObject var vm = Authentincation()
+    
     @State var animate = false
     
     @State var isSuccess = false
@@ -16,6 +18,7 @@ struct ChangePasswordView: View {
     @State var newPassword: String = ""
     @State var comfirmPassword: String = ""
     @State var isWait = false
+    @State var isCheck = false
     @Environment(\.presentationMode) var presentationMode
     
     var customSize =  CustomSize()
@@ -47,61 +50,55 @@ struct ChangePasswordView: View {
                         .padding(.horizontal,20)
                     Spacer()
                 }
-                HStack{
-                    Text("Recent Password")
-                        .modifier(Fonts(fontName: .outfit_light,
-                                           colorName: .black,
-                                           size: 20))
-                    Spacer()
-                }
-                .padding(.leading)
-                TextFieldView(placeholder: "Current Password", isSecure: true, text: $oldPassword)
-                    .padding(.bottom,8)
+
                 
-                HStack{
-                    Text("New Password")
-                        .modifier(Fonts(fontName: .outfit_light,
-                                           colorName: .black,
-                                           size: 20))
-                    Spacer()
-                }
-                .padding(.leading)
-                TextFieldView(placeholder: "New Password", isSecure: true, text: $newPassword)
-                    .padding(.bottom,8)
+                field
                 
-                HStack{
-                    Text("Confirm Password")
+                if isCheck{
+                    Text(vm.resetRespond.message)
                         .modifier(Fonts(fontName: .outfit_light,
-                                           colorName: .black,
-                                           size: 20))
-                    Spacer()
+                                        colorName: .red,
+                                        size: 12))
                 }
-                .padding(.leading)
-                TextFieldView(placeholder: "Confirm Password", isSecure: true, text: $comfirmPassword)
-                    .padding(.bottom,8)
                 
-//                withAnimation(.easeInOut){
-//                    Text("Email isn't exist")
-//                        .modifier(Fonts(fontName: .outfit_light,
-//                                        colorName: .red,
-//                                        size: 15))
-//                        .padding(.top)
-//                }
                 
                 Button {
-                    //
-                    isWait = true
+                    
+                    Task{
+                        //
+                        isWait = true
+                        
+                        let object = try await vm.resetPassword(current_password: oldPassword, newPassword: newPassword, confirmNewPassword: comfirmPassword)
+                        
+                        vm.resetRespond = object
+                        
+                        if object.status == false {
+                            isCheck = true
+                            isWait = false
+                        }
+                        else {
+                            presentationMode.wrappedValue.dismiss()
+                        }
+                        
+                        
+                    }
+                    
                 } label: {
                     ButtonView(text: "Save Change")
                         .padding()
                 }
-
+                
+                
+                
                 Spacer()
+                
             }
             
             if isWait{
                 wait
             }
+            
+            
         }
         .navigationBarHidden(true)
     }
@@ -115,12 +112,11 @@ struct ChangePasswordView_Previews: PreviewProvider {
 extension ChangePasswordView{
     var wait: some View {
         VStack{
-            Text("Please wait")
-                .modifier(Fonts(fontName: .outfit_regular, colorName: .purple, size: 26))
-                .padding()
+            
+            Spacer()
             
             Circle().stroke(AngularGradient(gradient: .init(colors: [Color.purple,Color.purple.opacity(0)]), center: .center))
-                .frame(width: 80,height: 80)
+                .frame(width: 60,height: 60)
                 .rotationEffect(.init(degrees: animate ? 360 : 0 ))
             
             Spacer()
@@ -130,9 +126,42 @@ extension ChangePasswordView{
                 animate.toggle()
             }
         }
-        .frame(width: 250,height: 180)
-        .background(Color(ColorsName.alert.rawValue))
-        .cornerRadius(20)
-        .shadow(radius: 5)
+    }
+    
+    var field: some View {
+        VStack{
+            HStack{
+                Text("Recent Password")
+                    .modifier(Fonts(fontName: .outfit_light,
+                                       colorName: .black,
+                                       size: 20))
+                Spacer()
+            }
+            .padding(.leading)
+            TextFieldView(placeholder: "Current Password", isSecure: true, text: $oldPassword)
+                .padding(.bottom,8)
+            
+            HStack{
+                Text("New Password")
+                    .modifier(Fonts(fontName: .outfit_light,
+                                       colorName: .black,
+                                       size: 20))
+                Spacer()
+            }
+            .padding(.leading)
+            TextFieldView(placeholder: "New Password", isSecure: true, text: $newPassword)
+                .padding(.bottom,8)
+            
+            HStack{
+                Text("Confirm Password")
+                    .modifier(Fonts(fontName: .outfit_light,
+                                       colorName: .black,
+                                       size: 20))
+                Spacer()
+            }
+            .padding(.leading)
+            TextFieldView(placeholder: "Confirm Password", isSecure: true, text: $comfirmPassword)
+                .padding(.bottom,8)
+        }
     }
 }

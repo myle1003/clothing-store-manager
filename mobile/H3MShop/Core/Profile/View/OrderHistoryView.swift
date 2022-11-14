@@ -11,20 +11,24 @@ struct OrderHistoryView: View {
     
     @Environment(\.presentationMode) var presentationMode
     var customSize = CustomSize()
-    @State private var selectFiller: StatsFillerViewModel = .toPay
+    @State private var selectFiller: StatsFillerViewModel = .toCheck
     @Namespace var animation
+    @StateObject var vm = OrderHistoryViewModel()
     var body: some View {
         VStack{
+            
             header
             statsFiller
             
-            ScrollView(){
-                OrderHistoryRow()
-                OrderHistoryRow()
-                OrderHistoryRow()
-                OrderHistoryRow()
-                OrderHistoryRow()
-                OrderHistoryRow()
+            ScrollView{
+                VStack{
+                    ForEach(vm.bills){ bill in
+                        
+                        OrderHistoryRow(bill: bill)
+
+                        
+                    }
+                }
             }
             
             
@@ -73,38 +77,46 @@ extension OrderHistoryView{
     }
     
     var statsFiller: some View {
-        HStack{
-            Spacer()
-            ForEach(StatsFillerViewModel.allCases, id:\.rawValue){
-                item in
-                VStack{
-                    Text(item.title)
-                        .modifier(Fonts(fontName: .outfit_regular, colorName: .black, size: 16))
-                        .frame(width:80)
-                    if selectFiller == item {
-                        Capsule()
-                            .foregroundColor(Color.gray)
-                            .frame(width:87,
-                                   height:1)
-                            .matchedGeometryEffect(id: "filler",
-                                                   in: animation)
+        ScrollView(.horizontal,showsIndicators: false){
+            HStack{
+                Spacer()
+                ForEach(StatsFillerViewModel.allCases, id:\.rawValue){
+                    item in
+                    VStack{
+                        Text(item.title.0)
+                            .modifier(Fonts(fontName: .outfit_regular, colorName: .black, size: 16))
+                            .frame(width:80)
+                        if selectFiller.title.0 == item.title.0 {
+                            Capsule()
+                                .foregroundColor(Color.gray)
+                                .frame(width:87,
+                                       height:1)
+                                .matchedGeometryEffect(id: "filler",
+                                                       in: animation)
+                        }
+                        else{
+                            Capsule()
+                                .foregroundColor(Color(.clear))
+                                .frame(width:87,height:1)
+                        }
                     }
-                    else{
-                        Capsule()
-                            .foregroundColor(Color(.clear))
-                            .frame(width:87,height:1)
+                    .onTapGesture {
+                            Task{
+                                do{
+                                    self.selectFiller = item
+                                    vm.type = item.title.1
+                                    try await vm.fetchBill()
+                                }
+                                catch{
+                                    
+                                }
+                            }
                     }
-                }
-                .onTapGesture {
-                    withAnimation(.easeInOut) {
-                        
-                        self.selectFiller = item
-                    }
-                }
 
+                    }
+                Spacer()
                 }
-            Spacer()
-            }
+        }
         
     }
 }

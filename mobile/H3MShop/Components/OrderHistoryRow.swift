@@ -6,80 +6,88 @@
 //
 
 import SwiftUI
-
+import Kingfisher
 struct OrderHistoryRow: View {
+    var bill : Bill
     var body: some View {
         VStack{
             Divider()
                 .padding(.leading,-16)
                 .padding(.trailing,-16)
 
-            HStack(alignment: .top,spacing: 1){
-                Image("test")
-                    .resizable()
-                    .frame(width: 80,height:80)
-                VStack(alignment: .leading){
-                    Text("Serum Giảm Mụn Oriskin GenZ")
-                        .modifier(Fonts(fontName: .outfit_regular,
-                                        colorName: .black,
-                                        size: 18))
-                    HStack{
+            NavigationLink(destination: BillDetail(bill: bill)) {
+                VStack{
+                    HStack(alignment: .top,spacing: 1){
+                        KFImage(URL(string: bill.id_bill.product.first!.id_product.urlImage.first!))
+                            .resizable()
+                            .frame(width: 80,height:80)
+                        VStack(alignment: .leading){
+                            Text(bill.id_bill.product.first!.id_product.name)
+                                .modifier(Fonts(fontName: .outfit_regular,
+                                                colorName: .black,
+                                                size: 18))
+                            HStack{
+                                Spacer()
+                                Text("x\(bill.id_bill.product.first!.number)")
+                                    .modifier(Fonts(fontName: .outfit_regular,
+                                                    colorName: .black,
+                                                    size: 16))
+                            }
+                            HStack{
+                                Spacer()
+                                Text("đ\(bill.id_bill.product.first!.price)")
+                                    .modifier(Fonts(fontName: .outfit_regular,
+                                                    colorName: .red,
+                                                    size: 18))
+                                    .padding(.top,2)
+                                    
+                            }
+
+                        }
+                        .padding(.leading,3)
                         Spacer()
-                        Text("x1")
+                    }
+                    Divider()
+                        .padding(.leading,-16)
+                        .padding(.trailing,-16)
+
+                    HStack{
+                        Text("\(bill.id_bill.product.count) items")
                             .modifier(Fonts(fontName: .outfit_regular,
                                             colorName: .black,
                                             size: 16))
-                    }
-                    HStack{
                         Spacer()
-                        Text("đ349.000")
-                            .strikethrough()
+                        Image("dollar")
+                            .resizable()
+                            .frame(width: 20,height:20)
+                        Text("Order Total: đ\(bill.id_bill.totalPrice)")
                             .modifier(Fonts(fontName: .outfit_regular,
-                                            colorName: .gray,
-                                            size: 16))
-                        Text("đ247.000")
-                            .modifier(Fonts(fontName: .outfit_regular,
-                                            colorName: .red,
+                                            colorName: .black,
                                             size: 18))
-                            
+
                     }
-
+                    Divider()
+                        .padding(.leading,-16)
+                        .padding(.trailing,-16)
                 }
-                .padding(.leading,3)
-                Spacer()
             }
-            Divider()
-                .padding(.leading,-16)
-                .padding(.trailing,-16)
+            
+            
 
-            HStack{
-                Text("1 items")
-                    .modifier(Fonts(fontName: .outfit_regular,
-                                    colorName: .black,
-                                    size: 16))
-                Spacer()
-                Image("dollar")
-                    .resizable()
-                    .frame(width: 20,height:20)
-                Text("Order Total: đ247.000")
-                    .modifier(Fonts(fontName: .outfit_regular,
-                                    colorName: .black,
-                                    size: 18))
-
+            
+            NavigationLink(destination: TrackOrderView(history: bill.history)) {
+                HStack{
+                    Text(bill.history.last!.id_status.name)
+                        .modifier(Fonts(fontName: .outfit_regular,
+                                        colorName: .green,
+                                        size: 16))
+                    
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                }
+                .padding(2)
             }
-            Divider()
-                .padding(.leading,-16)
-                .padding(.trailing,-16)
-            HStack{
-                Text("Giao hàng thành công")
-                    .modifier(Fonts(fontName: .outfit_regular,
-                                    colorName: .green,
-                                    size: 16))
-                
-                Spacer()
-                Image(systemName: "chevron.right")
-            }
-            .padding(2)
+            
             Divider()
                 .padding(.leading,-16)
                 .padding(.trailing,-16)
@@ -117,8 +125,8 @@ struct OrderHistoryRow: View {
     }
 }
 
-struct OrderHistoryRow_Previews: PreviewProvider {
-    static var previews: some View {
-        OrderHistoryRow()
-    }
-}
+//struct OrderHistoryRow_Previews: PreviewProvider {
+//    static var previews: some View {
+//        OrderHistoryRow(bill: Bill)
+//    }
+//}

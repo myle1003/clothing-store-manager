@@ -9,10 +9,10 @@ import SwiftUI
 
 struct LoginView: View {
     
-    @ObservedObject var vm = LoginViewModel()
+    @StateObject var vm = LoginViewModel()
     var customSize = CustomSize()
-    @EnvironmentObject var authViewModel: Authentincation
-    
+    @StateObject var authViewModel = Authentincation()
+    @StateObject var vmCarts = CartViewModel()
     @State var animate = false
     
     @State var isSuccess = false
@@ -97,7 +97,7 @@ struct LoginView: View {
             else {
                 authViewModel.token = vm.response.token!
                 authViewModel.getUser()
-                authViewModel.getCart()
+                vmCarts.getCart()
                 isSuccess.toggle()
                 
                 
@@ -125,7 +125,6 @@ struct LoginView: View {
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView()
-            .environmentObject(Authentincation())
     }
 }
 extension LoginView {
@@ -153,16 +152,17 @@ extension LoginView {
     }
     
     var forgetPass: some View {
-        NavigationLink(destination: ForgetPasswordView()) {
+
             HStack{
                 Spacer()
-                Text("Forget Password ?")
+                NavigationLink(destination: ForgetPasswordView()) {
+                    Text("Forget Password ?")
+                }
             }
             .modifier(Fonts(fontName: .outfit_bold,
                             colorName: .black,
                             size: customSize.textLoginSize))
             .padding(.trailing)
-        }
     }
     
     

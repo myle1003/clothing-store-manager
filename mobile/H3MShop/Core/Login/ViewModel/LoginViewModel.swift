@@ -17,8 +17,10 @@ class LoginViewModel: ObservableObject {
     @Published var isValidEmail = false
     @Published var isEmptyField = false
     @Published var isRightAllField = true
+    @Published var isCheck = false
     
     @Published var response: LoginResponse =  LoginResponse()
+    @Published var forgotResponse: ForgotResponse = ForgotResponse()
     
     func login() async throws -> LoginResponse {
         let urlString = Constants.baseURL + Endpoints.login
@@ -31,6 +33,17 @@ class LoginViewModel: ObservableObject {
     
         return try await HttpClient.shared.checkLoginAPI(to: url, object: loginRequest, httpMethod: httpMethod.POST.rawValue)
         
+    }
+    
+    func forgotPassword(with email: String) async throws  -> ForgotResponse {
+        let urlString = Constants.baseURL + Endpoints.forgot
+        guard let url = URL(string: urlString) else {
+            throw httpError.badURL
+        }
+        
+        let userForgot = LoginRequest(email: email, password: "")
+        
+        return try await HttpClient.shared.checkLoginAPI(to: url, object: userForgot, httpMethod: httpMethod.POST.rawValue)
     }
     
     

@@ -9,10 +9,9 @@ import SwiftUI
 
 struct ShippingView: View {
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var authViewModel: Authentincation
+    @StateObject var vm = CheckOutViewModel()
     var customSize =  CustomSize()
-    @Binding var name: String
-    @Binding var price: Int
+    @Binding var delivery: Delivery
     var body: some View {
         VStack(alignment: .leading){
             
@@ -31,10 +30,9 @@ struct ShippingView: View {
                 }
                 .padding()
                 
-                ForEach(authViewModel.delivery){ delivery in
+                ForEach(vm.delivery){ delivery in
                     Button {
-                        self.name = delivery.name
-                        self.price = delivery.price
+                        self.delivery = delivery
                         presentationMode.wrappedValue.dismiss()
                     } label: {
                         DeliveryRow(name: delivery.name, price: delivery.price, note: delivery.note)
@@ -51,12 +49,11 @@ struct ShippingView: View {
     }
 }
 
-struct ShippingView_Previews: PreviewProvider {
-    static var previews: some View {
-        ShippingView(name: .constant(""), price: .constant(2))
-            .environmentObject(Authentincation())
-    }
-}
+//struct ShippingView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ShippingView(name: .constant(""), price: .constant(2))
+//    }
+//}
 
 extension ShippingView {
     var header: some View {

@@ -83,6 +83,41 @@ class HttpClient{
     }
     
     
+    func checkResetPass<T:Codable,K: Codable>(to url: URL,object: T, httpMethod: String,with token: String) async throws -> K {
+        
+        
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = httpMethod
+        
+        request.addValue(MIMEType.JSON.rawValue,
+                         forHTTPHeaderField: httpHeaders.contentType.rawValue)
+        
+        request.setValue(token, forHTTPHeaderField: httpHeaders.token.rawValue)
+        
+        request.httpBody = try? JSONEncoder().encode(object)
+        
+        
+        let (data,response) = try await URLSession.shared.data(for: request)
+        
+        
+        guard (response as? HTTPURLResponse)?.statusCode == 200 || (response as? HTTPURLResponse)?.statusCode == 400 else {
+            print("Bad ERROR")
+            throw httpError.badResponse
+            
+           
+        }
+        
+        
+        guard let check = try? JSONDecoder().decode(K.self, from: data) else{
+            print("ERROR DECODE DATA")
+            throw httpError.errorDecodingData
+        }
+        return check
+    }
+    
+    
+    
     func sendData<T:Codable>(to url: URL,object: T, httpMethod: String) async throws  {
         var request = URLRequest(url: url)
         request.httpMethod = httpMethod

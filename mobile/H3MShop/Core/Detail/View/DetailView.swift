@@ -25,7 +25,8 @@ struct DetailView: View {
     @Namespace var animation: Namespace.ID
     
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var authViewModel: Authentincation
+    
+    @StateObject var vmCart = CartViewModel()
     
     
     var customSize = CustomSize()
@@ -161,7 +162,6 @@ struct DetailView: View {
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
         DetailView(product: Product(_id: "", name: "le Van Huy", rate: 3, status: "", slug: "", urlImage: ["https://w0.peakpx.com/wallpaper/678/107/HD-wallpaper-cute-animation-couple-goals-couple-kiss-couple-love-cute-couple-kiss-kissing-love-love-2019-make-love.jpg","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0hb6tnldzMaJyOCflPX8eh18d9fFzrhN3vg&usqp=CAU","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0hb6tnldzMaJyOCflPX8eh18d9fFzrhN3vg&usqp=CAU"], sold: 2, id_cate: "", size: [], color: [], description: "sjsjjsjsjsjssjsjsjsjsjsjsjsjsjsjsjsjsjsjsjsjsjsjsjssjsjsjsjsjsjsj", price: 300000, sellDay: "", weight: 2, discount: 15))
-            .environmentObject(Authentincation())
     }
 }
 extension DetailView{
@@ -191,7 +191,7 @@ extension DetailView{
                     .background(Color.purple)
                     .clipShape(Circle())
                     .overlay(
-                        Text("\(authViewModel.carts.cart.product.count)")
+                        Text("\(vmCart.carts.cart.product.count)")
                             .font(.caption)
                             .fontWeight(.bold)
                             .foregroundColor(Color.white)
@@ -398,29 +398,32 @@ extension DetailView{
                 .padding(.top)
                 .padding(.leading)
             
+            ScrollView(.horizontal,showsIndicators: false){
                 HStack{
-                    ForEach(product.color){ color in
-                        
-                        Button {
-                            self.chooseColor = color._id
-                        } label: {
-                            RoundedRectangle(cornerRadius: 2)
-                                .stroke(lineWidth: 1)
-                                .frame(width: 100, height: 30)
-                                .foregroundColor(Color(self.chooseColor == color._id ? ColorsName.red.rawValue : ColorsName.purple.rawValue))
-                                .overlay(
-                                    Text(color.name)
-                                        .modifier(Fonts(fontName: .outfit_regular,
-                                                        colorName: .purple,
-                                                        size: customSize.textField))
-                                )
+
+                        ForEach(product.color){ color in
+                            
+                            Button {
+                                self.chooseColor = color._id
+                            } label: {
+                                RoundedRectangle(cornerRadius: 2)
+                                    .stroke(lineWidth: 1)
+                                    .frame(width: 100, height: 30)
+                                    .foregroundColor(Color(self.chooseColor == color._id ? ColorsName.red.rawValue : ColorsName.purple.rawValue))
+                                    .overlay(
+                                        Text(color.name)
+                                            .modifier(Fonts(fontName: .outfit_regular,
+                                                            colorName: .purple,
+                                                            size: customSize.textField))
+                                    )
+                            }
+
+
+                            
                         }
-
-
-                        
-                    }
-                    Spacer()
                 }
+
+            }
                 .padding(.leading)
                 .padding(.top)
             
@@ -506,7 +509,7 @@ extension DetailView{
                                 vm.startAnimation.toggle()
                             }
                             
-                            try await authViewModel.addtoCart(id_product: product._id, size: chooseSize, color: chooseColor, number: quantity)
+                            try await vmCart.addtoCart(id_product: product._id, size: chooseSize, color: chooseColor, number: quantity)
                         }
                         catch{
                             
