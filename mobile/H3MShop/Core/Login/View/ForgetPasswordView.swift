@@ -14,12 +14,20 @@ struct ForgetPasswordView: View {
     @State var isSuccess = false
     @State var emailForget: String = ""
     @State var isWait = false
+    @State var toLoginView = false
+    @State var isNotification = false
     @Environment(\.presentationMode) var presentationMode
+    @ObservedObject var vm = LoginViewModel()
     
     var customSize =  CustomSize()
     
     var body: some View {
         ZStack{
+            if vm.isCheck {
+                withAnimation(.easeInOut){
+                    alert
+                }
+                }
             VStack(){
                 
                 HStack{
@@ -47,17 +55,27 @@ struct ForgetPasswordView: View {
                 }
                 TextFieldView(placeholder: "Email", isSecure: false, text: $emailForget)
                 
+                
                 withAnimation(.easeInOut){
-                    Text("Email isn't exist")
+                    Text(vm.forgotResponse.status ? "" : vm.forgotResponse.message)
                         .modifier(Fonts(fontName: .outfit_light,
                                         colorName: .red,
-                                        size: 15))
-                        .padding(.top)
+                                        size: 10))
                 }
                 
                 Button {
-                    //
-                    isWait = true
+                    Task{
+                        do {
+                            isNotification = false
+                            vm.isCheck = true
+                            let object = try await vm.forgotPassword(with: emailForget)
+                            vm.forgotResponse = object
+                            print(vm.forgotResponse.message)
+                        }
+                        catch{
+                            print("💨 error : \(error)")
+                        }
+                    }
                 } label: {
                     ButtonView(text: "Send verify to your email")
                         .padding()
@@ -66,10 +84,18 @@ struct ForgetPasswordView: View {
                 Spacer()
             }
             
-            if isWait{
-                wait
-            }
+            
+
+            
         }
+        .onChange(of: vm.forgotResponse, perform: { _ in
+            if vm.forgotResponse.status == true {
+                isNotification = true
+            }
+            else if vm.response.status == false {
+                vm.isCheck = false
+            }
+        })
         .navigationBarHidden(true)
         
     }
@@ -83,12 +109,9 @@ struct ForgetPasswordView_Previews: PreviewProvider {
 extension ForgetPasswordView {
     var wait: some View {
         VStack{
-            Text("Please wait")
-                .modifier(Fonts(fontName: .outfit_regular, colorName: .purple, size: 26))
-                .padding()
-            
+            Spacer()
             Circle().stroke(AngularGradient(gradient: .init(colors: [Color.purple,Color.purple.opacity(0)]), center: .center))
-                .frame(width: 80,height: 80)
+                .frame(width: 60,height: 60)
                 .rotationEffect(.init(degrees: animate ? 360 : 0 ))
             
             Spacer()
@@ -98,10 +121,70 @@ extension ForgetPasswordView {
                 animate.toggle()
             }
         }
+
+    }
+    var notification : some View {
+        VStack{
+            Text("Notification")
+                .modifier(Fonts(fontName: .outfit_regular, colorName: .purple, size: 26))
+                .padding()
+            
+            Text(vm.forgotResponse.message)
+                .multilineTextAlignment(.center)
+                .frame(height: 40)
+                .lineLimit(2)
+                .padding(.leading)
+                .padding(.trailing)
+                .modifier(Fonts(fontName: .outfit_regular, colorName: .purple, size: 15))
+            
+            
+            
+            NavigationLink(destination: LoginView(), isActive: $toLoginView) {}
+            
+            
+            Button {
+                if vm.forgotResponse.status == true {
+                    toLoginView.toggle()
+                }
+                else  {
+                    vm.isCheck = false
+                }
+            } label: {
+                Text("OK")
+                    .frame(width: 80,height: 35)
+                    .background(LinearGradient(colors: [Color(ColorsName.purple.rawValue),Color(ColorsName.blue.rawValue)], startPoint: .top, endPoint: .bottom))
+                    .modifier(Fonts(fontName: .outfit_bold, colorName: .white, size: 15))
+                    .cornerRadius(5)
+                    .padding()
+            }
+        }
         .frame(width: 250,height: 180)
         .background(Color(ColorsName.alert.rawValue))
         .cornerRadius(20)
         .shadow(radius: 5)
+    }
+    
+    var alert: some View {
+        VStack(alignment: .center){
+            
+            if isNotification {
+                withAnimation(.easeInOut){
+                    notification
+                }
+            }
+            else {
+                withAnimation(.easeInOut){
+                    wait
+                }
+            }
+            
+        }
+        .onAppear{
+            withAnimation(Animation.linear(duration: 1.5).repeatForever(autoreverses: false)){
+                animate.toggle()
+            }
+        }
+
     }
 
 }

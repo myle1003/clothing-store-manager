@@ -16,7 +16,6 @@ struct WaitToCheck: View {
             Image("Profile.TrackOrder")
                 .resizable()
                 .frame(width: 400,height: 400)
-            Spacer()
             NavigationLink {
                 MainTabView()
             } label: {
@@ -26,7 +25,6 @@ struct WaitToCheck: View {
                                     colorName: .green,
                                     size: 15))
             }
-            Spacer()
         }
         .navigationBarHidden(true)
         .background(Color(ColorsName.white.rawValue).opacity(0.05))
@@ -44,10 +42,10 @@ extension WaitToCheck{
             
             Spacer()
             
-            Text("Your Bill is waiting to check")
+            Text("Your placeorder is accepted!!!")
                 .modifier(Fonts(fontName: .outfit_regular,
-                                colorName: .black,
-                                size: 30))
+                                colorName: .green,
+                                size: 25))
             Spacer()
             
             

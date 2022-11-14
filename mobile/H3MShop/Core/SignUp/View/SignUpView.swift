@@ -38,7 +38,6 @@ struct SignUpView: View {
                                 isNotification = false
                                 vm.isCheck = true
                                 let object = try await vm.register()
-                                print(object.message)
                                 vm.response = object
                             }
                             catch{

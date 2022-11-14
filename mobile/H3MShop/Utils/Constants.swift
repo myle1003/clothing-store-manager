@@ -17,7 +17,7 @@ enum Endpoints{
     static let categories = "cms/categories/all"
     static let register = "web/auth/register"
     static let login = "web/auth/login"
-    static let products = "web/products/list/all/1"
+    static let products = "web/products/list/all/"
     static let provinces = "web/address/province"
     static let districs = "web/address/district"
     static let communes = "web/address/commune"
@@ -34,7 +34,8 @@ enum Endpoints{
     static let inforaddress = "web/inforaddress"
     static let paymentMethod = "web/paymentmethod"
     static let insertBill = "web/bill/insert"
-    static let getbills = "web/bill/all"
+    static let getbills = "web/bill/type/"
+    static let resetPass = "web/auth/reset"
     
 }
 

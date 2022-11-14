@@ -9,74 +9,60 @@ import SwiftUI
 
 struct PaymentView: View {
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var authViewModel: Authentincation
-    @Binding var name: String
+    @StateObject var vm = CheckOutViewModel()
     var customSize =  CustomSize()
+    @Binding var paymentMethod: PaymentMethod
     var body: some View {
-        VStack{
+        VStack(alignment: .leading){
            header
-            HStack(alignment: .top){
-                Image("debit-card")
-                    .resizable()
-                    .frame(width: 30,height:30)
-                VStack(alignment: .leading){
-                    Text("Transfer Banking")
-                        .modifier(Fonts(fontName: .outfit_regular,
-                                        colorName: .black,
-                                        size: 20))
-                    ForEach(authViewModel.info.card){ card in
-                        
-                        Button {
-                            self.name = card.bank + "[\(card.number)]"
-                            presentationMode.wrappedValue.dismiss()
-                        } label: {
-                            VStack(alignment: .leading){
-                                HStack{
-                                    Text(card.bank)
-                                        .modifier(Fonts(fontName: .outfit_regular,
-                                                        colorName: .black,
-                                                        size: 18))
-                                    Spacer()
-                                    Text(card.number)
-                                        .modifier(Fonts(fontName: .outfit_regular,
-                                                        colorName: .black,
-                                                        size: 18))
-                                }
-                                Text(card.name)
-                                    .modifier(Fonts(fontName: .outfit_regular,
-                                                    colorName: .gray,
-                                                    size: 16))
-                            }
-                            .padding(2)
-                        }
-
-                        
+            
+            
+            VStack(alignment: .leading){
+                ForEach(vm.paymentMethod){ payment in
+                    
+                    
+                    Button {
+                        self.paymentMethod = payment
+                        presentationMode.wrappedValue.dismiss()
+                    } label: {
+                        Text(payment.name)
+                            .modifier(Fonts(fontName: .outfit_regular,
+                                            colorName: .blue,
+                                            size: 22))
+                            .padding(.bottom,2)
+                            .padding(.top,2)
                     }
                     
-                
-                }
-                Spacer()
-            }
-            .padding()
-            
-            Button {
-                self.name = "Cash on Delivery"
-                presentationMode.wrappedValue.dismiss()
-            } label: {
-                HStack{
-                    Image("payment-method")
-                        .resizable()
-                        .frame(width: 30,height:30)
-                    VStack(alignment: .leading){
-                        Text("Cash on Delivery")
-                            .modifier(Fonts(fontName: .outfit_regular,
-                                            colorName: .black,
-                                            size: 20))
+                    
+                    ForEach(payment.card!){ card in
+                        
+                        HStack(){
+                            Text(card.name)
+                                .modifier(Fonts(fontName: .outfit_regular,
+                                                colorName: .black,
+                                                size: 20))
+                            Spacer()
+                            HStack{
+                                Text(card.bank)
+                                    .modifier(Fonts(fontName: .outfit_regular,
+                                                    colorName: .black,
+                                                    size: 18))
+                                Text("[\(card.number)]")
+                                    .modifier(Fonts(fontName: .outfit_regular,
+                                                    colorName: .black,
+                                                    size: 16))
+                            }
+                        }
+                        
+                        
                     }
-                    Spacer()
+
+                    
                 }
-                .padding()
             }
+            .padding(.leading)
+            .padding(.trailing)
+            
 
             
             Spacer()
@@ -90,8 +76,7 @@ struct PaymentView: View {
 
 struct PaymentView_Previews: PreviewProvider {
     static var previews: some View {
-        PaymentView(name: .constant(""))
-            .environmentObject(Authentincation())
+        PaymentView(paymentMethod: .constant(PaymentMethod()))
     }
 }
 

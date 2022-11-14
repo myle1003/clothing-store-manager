@@ -9,7 +9,7 @@ import Foundation
 class Sizes: Codable,Identifiable {
     var _id: String
     var name: String
-    var description: String?
+    var description: String
     
     init(_id: String = "" ,name: String = "" , description: String = ""){
         self._id = _id

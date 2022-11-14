@@ -33,3 +33,15 @@ class LoginRequest: Codable {
     }
     
 }
+
+class ResetPasswordRequest: Codable {
+    var current_password: String
+    var password: String
+    var password2: String
+    
+    init(current_password: String,password: String,password2: String){
+        self.current_password = current_password
+        self.password = password
+        self.password2 = password2
+    }
+}

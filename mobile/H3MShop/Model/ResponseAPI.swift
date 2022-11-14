@@ -36,3 +36,19 @@ class ForgotResponse: Codable,Equatable {
         self.status = status
     }
 }
+
+
+
+class ResetPasswordRespond: Codable,Equatable{
+    static func == (lhs: ResetPasswordRespond, rhs: ResetPasswordRespond) -> Bool {
+        lhs === rhs
+    }
+    
+    var message: String
+    var status: Bool
+    
+    init(message: String = "",status: Bool = true){
+        self.message = message
+        self.status = status
+    }
+}

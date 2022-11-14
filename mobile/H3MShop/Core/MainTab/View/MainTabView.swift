@@ -10,9 +10,8 @@ import SwiftUI
 struct MainTabView: View {
     
     @State var selectedIndex = 0
-    @State var isLoad = true
-    @EnvironmentObject var authViewModel : Authentincation
-    
+    @State var isLoad = false
+    @StateObject var vmCart = CartViewModel()
     var body: some View {
         VStack{
             
@@ -39,15 +38,16 @@ struct MainTabView: View {
                     Spacer()
                     TabBarView(selectedIndex: $selectedIndex)
                         .frame(height: 64)
+
                 }
             }
             
         }
         .onAppear(){
-            authViewModel.getCart()
-            self.isLoad = false
+            self.isLoad.toggle()
+            vmCart.getCart()
+            self.isLoad.toggle()
         }
-
         .background(Color(ColorsName.white.rawValue).opacity(0.05))
         
     }
@@ -56,7 +56,6 @@ struct MainTabView: View {
 struct MainTabView_Previews: PreviewProvider {
     static var previews: some View {
         MainTabView()
-            .environmentObject(Authentincation())
         
     }
 }

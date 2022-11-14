@@ -11,6 +11,10 @@ class MainViewModel: ObservableObject {
     
     @Published  var categories = [Category]()
     @Published var products = [Product]()
+    @Published var totalCount = 1
+    @Published var recentCount = 1
+    @Published var slug = ""
+    @Published var textSearch = ""
     
     init(){
         self.getProducts()
@@ -32,14 +36,32 @@ class MainViewModel: ObservableObject {
     }
     
     func fetchProducts() async throws -> [Product]{
-        let urlString = Constants.baseURL + Endpoints.products
+        let urlString = Constants.baseURL + Endpoints.products + "\(recentCount)"
         
         guard let url = URL(string: urlString) else {
             throw httpError.badURL
         }
-        let productsResponse: [Product] = try await HttpClient.shared.fetch(url: url)
+        let productsResponse: MainProduct = try await HttpClient.shared.fetch(url: url)
         
-        return productsResponse
+        DispatchQueue.main.async {
+            self.totalCount = productsResponse.count
+        }
+        
+        return productsResponse.products
+    }
+    
+    func fetchMoreProduct() async throws {
+        let urlString = Constants.baseURL + Endpoints.products + "\(recentCount)"
+        
+        guard let url = URL(string: urlString) else {
+            throw httpError.badURL
+        }
+        let productsResponse: MainProduct = try await HttpClient.shared.fetch(url: url)
+        
+        DispatchQueue.main.async {
+            self.products += productsResponse.products
+        }
+
     }
     
     func getProducts() {
@@ -71,15 +93,25 @@ class MainViewModel: ObservableObject {
     }
     
     func fetchProductbyCategories(slug: String) async throws -> [Product]  {
+        
+        DispatchQueue.main.async {
+            self.slug = slug
+        }
+        
         let urlString = Constants.baseURL + Endpoints.productsbyCategory + "list/\(slug)/1"
-        print(urlString)
         guard let url = URL(string: urlString) else {
             throw httpError.badURL
         }
         
-        let productResponse: [Product] = try await HttpClient.shared.fetch(url: url)
+        let productsResponse: MainProduct = try await HttpClient.shared.fetch(url: url)
         
-        return productResponse
+        DispatchQueue.main.async {
+            self.totalCount = productsResponse.count
+        }
+        
+        return productsResponse.products
+        
+
     }
     
     func getProductbyCategory(slug: String) {

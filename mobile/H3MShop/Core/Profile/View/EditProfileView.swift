@@ -10,7 +10,7 @@ import Kingfisher
 struct EditProfileView: View {
     
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var authViewModel : Authentincation
+    @StateObject var authViewModel = Authentincation()
     
     
     
@@ -70,7 +70,6 @@ struct EditProfileView: View {
 struct EditProfileView_Previews: PreviewProvider {
     static var previews: some View {
         EditProfileView()
-            .environmentObject(Authentincation())
     }
 }
 extension EditProfileView {

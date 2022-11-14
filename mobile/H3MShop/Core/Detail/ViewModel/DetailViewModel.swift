@@ -67,10 +67,11 @@ class DetailViewModel: ObservableObject {
     }
     
         func fetchProductDetail(slug: String) async throws {
-    
-            print(slug)
+
             
             let urlString = Constants.baseURL + Endpoints.productDetail + "/\(slug)"
+            
+            print(urlString)
     
             guard let url = URL(string: urlString) else {
                 throw httpError.badURL
