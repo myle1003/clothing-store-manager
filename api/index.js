@@ -8,6 +8,9 @@ app.use(cors())
 
 const productAdmin = require('./Route/ProductAdmin');
 const productPublic = require('./Route/ProductPublic');
+const categoryAdmin = require('./Route/CategoryAdmin');
+const comment = require('./Route/Comment');
+const rate = require('./Route/Rate');
 const user = require('./Route/User');
 const auth = require('./Route/Auth');
 
@@ -26,6 +29,9 @@ app.use(express.json());
 
 app.use('/api/v1/cms/products', productAdmin);
 app.use('/api/v1/web/products', productPublic);
+app.use('/api/v1/cms/categories', categoryAdmin);
+app.use('/api/v1/web/comment', comment);
+app.use('/api/v1/web/rate', rate);
 app.use('/api/v1/web/users', user);
 app.use('/api/v1/web/auth', auth);
 
