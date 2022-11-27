@@ -10,6 +10,7 @@ const productAdmin = require('./Route/ProductAdmin');
 const productPublic = require('./Route/ProductPublic');
 const user = require('./Route/User');
 const auth = require('./Route/Auth');
+const staff = require('./Route/Staff');
 
 
 const mongoose = require('mongoose');
@@ -28,6 +29,7 @@ app.use('/api/v1/cms/products', productAdmin);
 app.use('/api/v1/web/products', productPublic);
 app.use('/api/v1/web/users', user);
 app.use('/api/v1/web/auth', auth);
+app.use('/api/v1/cms/staff', staff);
 
 const port = process.env.PORT || 3002;
 http.listen(port, () => console.log('Socket listening on port...' + port));
