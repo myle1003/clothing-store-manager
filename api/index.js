@@ -14,7 +14,7 @@ const rate = require('./Route/Rate');
 const user = require('./Route/User');
 const auth = require('./Route/Auth');
 const staff = require('./Route/Staff');
-
+const blacklist = require('./Route/BlackList');
 
 const mongoose = require('mongoose');
 const http = require('http').Server(app);
@@ -36,6 +36,8 @@ app.use('/api/v1/web/rate', rate);
 app.use('/api/v1/web/users', user);
 app.use('/api/v1/web/auth', auth);
 app.use('/api/v1/cms/staff', staff);
+app.use('/api/v1/cms/blacklist', blacklist);
+
 
 const port = process.env.PORT || 3002;
 http.listen(port, () => console.log('Socket listening on port...' + port));
