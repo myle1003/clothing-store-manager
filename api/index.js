@@ -23,7 +23,7 @@ const infor = require('./Route/Infor');
 const delivery = require('./Route/Delivery');
 const inforAddress = require('./Route/InforAddress');
 const paymentMethod = require('./Route/PaymentMethod');
-
+const upload = require('./Route/Upload');
 
 const mongoose = require('mongoose');
 const http = require('http').Server(app);
