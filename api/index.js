@@ -15,6 +15,15 @@ const user = require('./Route/User');
 const auth = require('./Route/Auth');
 const staff = require('./Route/Staff');
 const blacklist = require('./Route/BlackList');
+const supplyAdmin = require('./Route/SupplyAdmin');
+const address = require('./Route/Address');
+const cart = require('./Route/Cart');
+const bill = require('./Route/Bill');
+const infor = require('./Route/Infor');
+const delivery = require('./Route/Delivery');
+const inforAddress = require('./Route/InforAddress');
+const paymentMethod = require('./Route/PaymentMethod');
+
 
 const mongoose = require('mongoose');
 const http = require('http').Server(app);
@@ -37,6 +46,15 @@ app.use('/api/v1/web/users', user);
 app.use('/api/v1/web/auth', auth);
 app.use('/api/v1/cms/staff', staff);
 app.use('/api/v1/cms/blacklist', blacklist);
+app.use('/api/v1/cms/supplies', supplyAdmin);
+app.use('/api/v1/cms/deliveries', delivery);
+app.use('/api/v1/web/address', address);
+app.use('/api/v1/web/cart', cart);
+app.use('/api/v1/web/bill', bill);
+app.use('/api/v1/web/infor', infor);
+app.use('/api/v1/web/inforaddress', inforAddress);
+app.use('/api/v1/web', upload);
+app.use('/api/v1/web/paymentmethod', paymentMethod);
 
 
 const port = process.env.PORT || 3002;
