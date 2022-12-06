@@ -24,11 +24,12 @@ const delivery = require('./Route/Delivery');
 const inforAddress = require('./Route/InforAddress');
 const paymentMethod = require('./Route/PaymentMethod');
 const upload = require('./Route/Upload');
+const log = require('./Route/Log');
 
-const {logger} = require('./logger/logger');
 
-logger.info('test infor');
-logger.error('test error');
+
+// logger.info('test infor');
+// logger.error('test error');
 
 const mongoose = require('mongoose');
 const http = require('http').Server(app);
@@ -60,6 +61,7 @@ app.use('/api/v1/web/infor', infor);
 app.use('/api/v1/web/inforaddress', inforAddress);
 app.use('/api/v1/web', upload);
 app.use('/api/v1/web/paymentmethod', paymentMethod);
+app.use('/api/v1/web/log', log);
 
 
 const port = process.env.PORT || 3002;
