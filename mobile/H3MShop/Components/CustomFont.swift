@@ -16,6 +16,7 @@ enum FontsName: String {
     case outfit_regular = "Outfit-Regular"
     case outfit_black = "Outfit-Black"
     case outfit_extraBold = "Outfit-ExtraBold"
+    case fontTest = "VeganStylePersonalUse-5Y58"
 }
 enum ColorsName: String {
     case blue = "Splash.startLinear"
