@@ -25,6 +25,11 @@ const inforAddress = require('./Route/InforAddress');
 const paymentMethod = require('./Route/PaymentMethod');
 const upload = require('./Route/Upload');
 
+const {logger} = require('./logger/logger');
+
+logger.info('test infor');
+logger.error('test error');
+
 const mongoose = require('mongoose');
 const http = require('http').Server(app);
 
