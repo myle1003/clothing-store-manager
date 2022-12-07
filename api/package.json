@@ -17,6 +17,8 @@
   "license": "ISC",
   "dependencies": {
     "@myle1003/clothing-store-manager": "^1.0.0",
+    "@sentry/node": "^7.24.1",
+    "@sentry/tracing": "^7.24.1",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.32.0",
     "cors": "^2.8.5",
