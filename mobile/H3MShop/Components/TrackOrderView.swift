@@ -1,49 +1,64 @@
 //
-//  CartView.swift
+//  TrackOrderView.swift
 //  H3MShop
 //
-//  Created by Van Huy on 17/10/2022.
+//  Created by Lê Văn Huy on 28/10/2022.
 //
 
 import SwiftUI
 
-struct CartView: View {
-    
-    @Environment(\.presentationMode) var presentationMode
-    @StateObject var vm = CartViewModel()
+struct TrackOrderView: View {
     var customSize = CustomSize()
+    @Environment(\.presentationMode) var presentationMode
+    var history: [History]
+    
     var body: some View {
-        VStack{
-            header
+        VStack(alignment: .leading){
+                header
+            HStack{
+                Spacer()
+                Image("Profile.TrackOrder")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height:350)
+                Spacer()
+            }
+                
+            VStack(alignment: .leading){
+                    Text("Delivery Status")
+                        .modifier(Fonts(fontName: .outfit_semibold, colorName: .black, size: 28))
+                        .padding(.leading)
+
+                ForEach(self.history){history in
+                    StatusRow(status: history.id_status.name, time: history.date)
+                }
+                    
+                }
             
-            listCart
             
-            Spacer()
-            
-            addtoCart
-            
-            
-            
-        }
-        .onChange(of: vm.carts, perform: { newValue in
-            vm.getCart()
-        })
-        .background(Color(ColorsName.white.rawValue).opacity(0.05))
+                
+                
+                Spacer()
+            }
         .navigationBarHidden(true)
+        .background(Color(ColorsName.white.rawValue).opacity(0.05))
+
     }
 }
 
-struct CartView_Previews: PreviewProvider {
+struct TrackOrderView_Previews: PreviewProvider {
     static var previews: some View {
-        CartView()
+        TrackOrderView(history: [])
     }
 }
 
-extension CartView {
+extension TrackOrderView{
     var header: some View {
         HStack{
+            
+            
             Button {
-                //MARK: GO TO MAIN
+                //MARK: GO TO PROFILE
                 presentationMode.wrappedValue.dismiss()
             } label: {
                 Image("Main.back")
@@ -51,79 +66,19 @@ extension CartView {
                     .frame(width: customSize.mainButtonDetail,
                            height: customSize.mainButtonDetail)
             }
-            
             Spacer()
-            Text("My Cart")
+            
+            Text("Track Order")
                 .modifier(Fonts(fontName: .outfit_regular,
                                 colorName: .black,
                                 size: customSize.heightButtonList))
+                .offset(x:-26)
             Spacer()
-            Button {
-                //MARK: GO TO TRASH
-            } label: {
-                Image("Main.Trash")
-                    .resizable()
-                    .frame(width: customSize.mainButtonDetail,
-                           height: customSize.mainButtonDetail)
-            }
             
             
         }
         .padding(.leading)
-        .padding(.trailing)
+        .offset(y:4)
     }
-    
-    var listCart: some View {
-        ScrollView(){
-            ForEach(vm.carts.cart.product){ product in
-                
-                withAnimation(.spring()){
-                    RowCartView(id_product: product._id, urlImage: product.id_product.urlImage[0], name: product.id_product.name,
-                                color: product.color.name,
-                                size: product.size.name,
-                                discount: product.id_product.discount, price: product.id_product.price - (product.id_product.price * product.id_product.discount)/100, quantity: product.number)
-                }
-                
-            }
-            
-        }
-        .frame(height:customSize.scrollCartSize)
-    }
-    
-    var addtoCart: some View {
-        HStack{
-            VStack(alignment: .leading){
-                Text("Total price: ")
-                    .modifier(Fonts(fontName: .outfit_bold,
-                                    colorName: .black,
-                                    size: 23))
-                Text("\(Int(vm.carts.price))đ")
-                    .modifier(Fonts(fontName: .outfit_regular,
-                                    colorName: .red,
-                                    size: 23))
-            }
-            
-            Spacer()
-            
-            NavigationLink(destination: CheckoutView()) {
-                HStack{
-                    Image("Cart.Checkout")
-                        .resizable()
-                        .frame(width:35,height:35)
-                    Text("Check out")
-                        .modifier(Fonts(fontName: .outfit_bold,
-                                        colorName: .white,
-                                        size: 23))
-                }
-                .frame(width:170,
-                       height:55)
-                .background(                                LinearGradient(colors: [Color(ColorsName.purple.rawValue),Color(ColorsName.blue.rawValue)], startPoint: .top, endPoint: .bottom))
-                .cornerRadius(15)
-            }
-            
-        }
-        .padding(.leading)
-        .padding(.trailing)
-        .offset(y:-24)
-    }
+
 }
