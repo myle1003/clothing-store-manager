@@ -10,6 +10,7 @@ import SwiftUI
 struct WishListView: View {
     @State var textSearch = ""
     var customSize = CustomSize()
+    @StateObject var vm = MainViewModel()
     var body: some View {
         VStack{
             header
@@ -103,14 +104,22 @@ extension WishListView {
     }
     
     var listWishList: some View{
+        
         ScrollView{
             LazyVGrid(columns:[
                 GridItem(.adaptive(minimum: 190))
             ]) {
-//                ProductView(name: "Men's Shoes", brand: "Energy Runner LP", image: "reebokshoes1", price: "180.56", rate: "5.0")
-//                ProductView(name: "Women's Shoes", brand: "Energy Runner LP", image: "reebokshoes2", price: "120.32", rate: "4.8")
-//                ProductView(name: "Men's Shoes", brand: "Energy Runner LP", image: "reebokshoes3", price: "117.56", rate: "5.0")
-//                ProductView(name: "Women's Shoes", brand: "Energy Runner LP", image: "reebokshoes4", price: "182.65", rate: "4.0")
+                ForEach(vm.wishlist){ product in
+                    
+                    NavigationLink {
+                        DetailView(slug: product.id_product.slug)
+                    } label: {
+                        WishListRow(name: product.id_product.name,category: "", urlImage: product.id_product.urlImage.isEmpty ?  "" : product.id_product.urlImage[0], price: product.id_product.price - (product.id_product.price * product.id_product.discount)/100,discount: product.id_product.discount, sold: product.id_product.sold,rate: Int(product.rate))
+                    }
+
+
+                    
+                }
             }
         }
     }

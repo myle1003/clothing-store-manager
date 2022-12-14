@@ -16,7 +16,7 @@ struct RowCartView: View {
     var color: String
     var size: String
     var discount: Int
-    @StateObject var vm = CartViewModel()
+    @ObservedObject var vm = CartViewModel()
     @State var  price: Int = 0
     @State var quantity: Int = 1
     var customSize =  CustomSize()
@@ -146,9 +146,6 @@ struct RowCartView: View {
             )
             Spacer()
         }
-        .onChange(of: vm.carts, perform: { newValue in
-            vm.getCart()
-        })
         .frame(height:customSize.heightRowCart)
         .background(Color(ColorsName.white.rawValue))
         .cornerRadius(20)

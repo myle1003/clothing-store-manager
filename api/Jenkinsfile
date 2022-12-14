@@ -1,0 +1,13 @@
+pipeline {
+    agent none
+    tool {
+        nodejs '19.2.0'
+    }
+    stages {
+        stage('Build') { 
+            steps {
+                sh 'npm install' 
+            }
+        }
+    }
+}

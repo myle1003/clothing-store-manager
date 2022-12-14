@@ -11,7 +11,6 @@ const Stock = mongoose.model('Stock', new mongoose.Schema({
             id_product:{
                 type: Schema.Types.ObjectId,
                 ref: Product,
-                unique: true,
                 required: true
             },
             receive:[
@@ -36,33 +35,6 @@ const Stock = mongoose.model('Stock', new mongoose.Schema({
                 type: Number,
                 required: true
             }
-    }
-    ],
-    remain: [{
-        id_product:{
-            type: Schema.Types.ObjectId,
-            ref: Product,
-            unique: true,
-            required: true
-        },
-        receive:[
-            {
-                size:{
-                    type: Schema.Types.ObjectId,
-                    ref: Size,
-                    required:true
-                },
-                color:{
-                    type: String,
-                    ref: Color,
-                    required: true
-                },
-                number:{
-                    type: Number,
-                    required: true
-                }
-            }
-        ]
     }
     ],
     id_supply:{

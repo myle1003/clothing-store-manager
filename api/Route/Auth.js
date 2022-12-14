@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../middleware/auth');
 
 //------------ Importing Controllers ------------//
 const authController = require('../Controller/authController')
@@ -21,7 +22,7 @@ router.get('/activate/:token', authController.activateHandle);
 router.post('/forgot', authController.forgotPassword);
 
 //------------ Reset Password Handle ------------//
-router.post('/reset/:id', authController.resetPassword);
+router.post('/reset', auth, authController.resetPassword);
 
 //------------ Login POST Handle ------------//
 router.post('/login', authController.login);

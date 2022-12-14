@@ -10,7 +10,7 @@ import Foundation
 import Foundation
 
 enum Constants{
-    static let baseURL = "http://103.197.184.7:3002/api/v1/"
+    static let baseURL = "http://1bf1-2001-ee0-1b1-7578-8075-da91-5fd6-4f0d.ngrok.io/api/v1/"
 }
 
 enum Endpoints{
@@ -36,6 +36,8 @@ enum Endpoints{
     static let insertBill = "web/bill/insert"
     static let getbills = "web/bill/type/"
     static let resetPass = "web/auth/reset"
+    static let search = "web/products/search/"
+    static let wishlist = "web/products/wish-list/1"
     
 }
 

@@ -1,7 +1,9 @@
 const express = require('express');
-const { populate } = require('../Model/Account');
+const { populate, exists } = require('../Model/Account');
+const { Product } = require('../Model/Product');
 const { Representative } = require('../Model/Representative');
 const { Supply } = require('../Model/Supply');
+const {logger} = require('../logger/logger');
 
 const router = express.Router();
 router.post('/insert', async function(req, res) {
@@ -19,9 +21,11 @@ router.post('/insert', async function(req, res) {
             image: req.body.supply.image
         });
         supply = await supply.save();
-        res.send(supply);
+        res.status(200).send(supply);
     } catch (e) {
-        res.send(e);
+        logger.info(e);
+        logger.error(e);
+        res.status(400).send({messsage:'error'});
     }
 })
 router.delete('/delete/:id', async function(req, res) {
@@ -32,20 +36,28 @@ router.delete('/delete/:id', async function(req, res) {
         } else {
             let representative = await Representative.findByIdAndDelete(supply.id_representative);
             supply = await supply.delete();
-            res.send({ message: 'Delete successful' })
+            res.status(200).send({ message: 'Delete successful' })
         }
     } catch (e) {
-        res.send(e);
+        logger.info(e);
+        logger.error(e);
+        res.status(400).send({messsage:'error'});
     }
 })
 router.get('/all/:page',async function(req,res){
+    try{
         const page = req.params.page;
         const supplies = await Supply.find({}).limit(10).skip((page - 1) * 10).sort({'_id':-1}).populate('id_representative',['name','phone','possition','image'])
         .populate('listProduct','name').populate({path: 'id_commune', select: 'name',
         populate : {path:'id_district',select:'name', populate:{path:'id_province',select:'name'}}} )
         let count = await Supply.countDocuments();
         count = parseInt((count-1)/10) +1
-                return res.send({supplies: supplies, count: count});
+        return res.status(200).send({supplies: supplies, count: count});
+    }
+    catch(e){
+        res.status(400).send({messsage:'error'});
+
+    }
 })
 router.get('/detail/:id', async function(req, res) {
     try {
@@ -54,17 +66,19 @@ router.get('/detail/:id', async function(req, res) {
             select: 'name',
             populate: { path: 'id_district', select: 'name', populate: { path: 'id_province', select: 'name' } }
         })
-        return res.send({ supply: supply });
+        return res.status(200).send({ supply: supply });
     } catch (e) {
-        res.send(e);
+        res.status(400).send({messsage:'error'});
     }
 })
 router.get('/representative/:id', async function(req, res) {
     try {
         const representative = await Representative.findById(req.params.id);
-        return res.send({ representative: representative });
+        return res.status(200).send({ representative: representative });
     } catch (e) {
-        res.send(e);
+        logger.info(e);
+        logger.error(e);
+        res.status(400).send({messsage:'error'});
     }
 })
 router.put('/update/:id', async function(req, res) {
@@ -78,9 +92,26 @@ router.put('/update/:id', async function(req, res) {
         }, { new: true });
         let representative = await Representative.findByIdAndUpdate(supply.id_representative, { phone: req.body.representative.phone, name: req.body.representative.name, possition: req.body.representative.possition });
         // let supply = new Supply({name:req.body.name,phone:req.body.phone,street:req.body.street,id_commune:req.body.id_commune,id_representative:req.body.id_representative});
-        res.send(supply);
+        res.status(200).send(supply);
     } catch (e) {
-        res.send(e);
+        logger.error(e);
+        logger.info(e);
+        res.status(400).send(e);
+    }
+})
+router.get('/product/:id',async function(req,res){
+    try{
+        let supply = await Supply.findById(req.params.id).select(['listProduct','name'])
+        .populate({path:'listProduct',select:['name','id_cate'],
+        populate:{path:'id_cate',select:'name'}})
+        let newProduct = await Product.find({status:'Chưa tồn tại'})
+        .select(['name','id_cate']).populate('id_cate','name')
+        let result = [...newProduct,...supply.listProduct]
+        res.status(200).send({product:result,name:supply.name}) 
+    }
+    catch(ex){
+        console.log(ex)
+         res.status(400).send({message:'error'})
     }
 })
 module.exports = router;
