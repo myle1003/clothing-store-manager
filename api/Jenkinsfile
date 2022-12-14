@@ -1,6 +1,6 @@
 pipeline {
-    agent none
-    tool {
+    agent any
+    tools {
         nodejs '19.2.0'
     }
     stages {
@@ -8,6 +8,15 @@ pipeline {
             steps {
                 sh 'npm install' 
             }
+        }
+    }
+
+    post {
+        success {
+            echo "SUCCESSFUL"
+        }
+        failure {
+            echo "FAILED"
         }
     }
 }
