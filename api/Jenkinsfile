@@ -6,9 +6,7 @@ pipeline {
     stages {
         stage('Build') { 
             steps {
-                sh 'npm adduser --registry=http://myregistry.example.com --scope=@myle1003'
-                sh 'npm login'
-                sh 'npm install'
+                sh 'npm install @myle1003/clothing-store-manager'
             }
         }
     }
