@@ -6,6 +6,7 @@ pipeline {
     stages {
         stage('Build') { 
             steps {
+                sh 'npm adduser --registry=http://https://npm.pkg.github.com --scope=@myle1003'
                 sh 'npm login --scope=@myle1003 --registry=https://npm.pkg.github.com'
                 sh 'npm install'
             }
