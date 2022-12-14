@@ -1,5 +1,5 @@
 const InforAddress = require('../Model/InforAddress');
-
+const {logger} = require('../logger/logger');
 
 //------------ Create ------------//
 exports.createInforAddress = async(req, res) => {

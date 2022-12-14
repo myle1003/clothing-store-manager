@@ -1,6 +1,6 @@
 const Comment = require('../Model/Comment');
 const Rate = require('../Model/Rate');
-
+const {logger} = require('../logger/logger');
 
 //------------ Create ------------//
 exports.createComment = async(req, res) => {

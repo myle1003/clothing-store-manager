@@ -1,4 +1,5 @@
 const { Payment_method } = require("../Model/Payment_method");
+const {logger} = require('../logger/logger');
 
 exports.getPaymentMethod = async function(req, res) {
     try {

@@ -10,6 +10,7 @@ var schedule = require('node-schedule');
 const Rate = require('../Model/Rate');
 const { Size } = require('../Model/Size');
 const { Color } = require('../Model/Color');
+const {logger} = require('../logger/logger');
 
 const router = express.Router();
 

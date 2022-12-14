@@ -3,6 +3,7 @@ const router = express.Router();
 const { Commune } = require("../Model/Commune");
 const { District } = require('../Model/District');
 const { Province } = require('../Model/Province');
+const {logger} = require('../logger/logger');
 
 router.get('/province', async function(req, res) {
     try {

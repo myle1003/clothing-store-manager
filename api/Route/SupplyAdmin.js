@@ -3,6 +3,7 @@ const { populate, exists } = require('../Model/Account');
 const { Product } = require('../Model/Product');
 const { Representative } = require('../Model/Representative');
 const { Supply } = require('../Model/Supply');
+const {logger} = require('../logger/logger');
 
 const router = express.Router();
 router.post('/insert', async function(req, res) {

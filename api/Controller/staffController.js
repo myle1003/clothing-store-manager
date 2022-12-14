@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 const JWT_KEY = process.env.JWT_KEY;
 const JWT_RESET_KEY = process.env.JWT_RESET_KEY;
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
-
+const {logger} = require('../logger/logger');
 
 //------------ Create ------------//
 exports.createStaff = (req, res) => {

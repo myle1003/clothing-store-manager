@@ -1,6 +1,6 @@
 const Rate = require('../Model/Rate');
 const auth = require('../middleware/auth');
-
+const {logger} = require('../logger/logger');
 // const { District } = require('../Model/District');
 
 

@@ -1,6 +1,7 @@
 const express = require('express');
 const auth = require('../middleware/auth');
 const { Cart } = require('../Model/Cart');
+const {logger} = require('../logger/logger');
 
 const router = express.Router();
 router.get('/', auth, async function(req, res) {

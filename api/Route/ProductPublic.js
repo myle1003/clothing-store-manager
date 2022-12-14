@@ -10,6 +10,7 @@ const Rate = require('../Model/Rate');
 const Comment = require('../Model/Comment');
 const { StockProduct } = require('../Model/StockProduct');
 const router = express.Router();
+const {logger} = require('../logger/logger');
 // router.get('/all/:page',async function(req,res){
 //     const page = 1
 //     if(!req.params.page){
@@ -39,6 +40,8 @@ router.get('/list/:slug/:page', async function(req, res) {
     if (count !== 0) {
         count = parseInt((count - 1) / 16) + 1;
     }
+    logger.info(products);
+    logger.error("error in produc");
     res.status(200).send({ products: products, count: count })
 })
 router.get('/count/:slug', async function(req, res) {
