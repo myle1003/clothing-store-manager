@@ -1,7 +1,7 @@
 const Infor = require('../Model/Infor');
 const { Commune } = require('../Model/Commune');
 const { District } = require('../Model/District');
-
+const {logger} = require('../logger/logger');
 
 exports.getInfor = async function(req, res) {
     try {
@@ -34,5 +34,7 @@ exports.getInfor = async function(req, res) {
         });
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 }

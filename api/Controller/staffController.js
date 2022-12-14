@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 const JWT_KEY = process.env.JWT_KEY;
 const JWT_RESET_KEY = process.env.JWT_RESET_KEY;
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
-
+const {logger} = require('../logger/logger');
 
 //------------ Create ------------//
 exports.createStaff = (req, res) => {
@@ -67,6 +67,8 @@ exports.createStaff = (req, res) => {
         })
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 }
 
@@ -98,6 +100,8 @@ exports.updateStaff = async(req, res) => {
         }
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 }
 
@@ -119,6 +123,8 @@ exports.getStaff = async(req, res) => {
         }
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 }
 
@@ -140,6 +146,8 @@ exports.getAllStaff = async(req, res) => {
         }
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 }
 
@@ -160,5 +168,7 @@ exports.deleteStaff = async(req, res) => {
         });
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 }

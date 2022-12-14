@@ -3,7 +3,7 @@ const Role = require('../Model/Role');
 const { Commune } = require('../Model/Commune');
 const auth = require('../middleware/auth');
 const { District } = require('../Model/District');
-
+const {logger} = require('../logger/logger');
 
 //------------ Create ------------//
 exports.createUser = (req, res) => {
@@ -38,6 +38,8 @@ exports.createUser = (req, res) => {
         })
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 }
 
@@ -71,6 +73,8 @@ exports.updateUser = async(req, res) => {
         }
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 }
 
@@ -93,6 +97,8 @@ exports.getUser = async(req, res) => {
         }
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 }
 
@@ -113,5 +119,7 @@ exports.deleteUser = async(req, res) => {
         });
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 }

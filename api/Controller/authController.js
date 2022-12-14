@@ -401,6 +401,8 @@ exports.login = (req, res) => {
             token: "",
             status: false
         });
+        logger.info(e);
+        logger.error(e);
     }
 }
 

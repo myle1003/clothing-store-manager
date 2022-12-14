@@ -1,6 +1,6 @@
 const auth = require('../middleware/auth');
 const Delivery = require('../Model/Delivery');
-
+const {logger} = require('../logger/logger');
 
 
 //------------ Create ------------//
@@ -25,6 +25,8 @@ exports.createDelivery = async(req, res) => {
         });
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 }
 
@@ -51,6 +53,8 @@ exports.updateDelivery = async(req, res) => {
         });
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 }
 
@@ -64,6 +68,8 @@ exports.getDelivery = async function(req, res) {
         });
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 }
 
@@ -77,5 +83,7 @@ exports.getAll = async function(req, res) {
         });
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 }

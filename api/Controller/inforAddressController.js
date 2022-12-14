@@ -1,5 +1,5 @@
 const InforAddress = require('../Model/InforAddress');
-
+const {logger} = require('../logger/logger');
 
 //------------ Create ------------//
 exports.createInforAddress = async(req, res) => {
@@ -30,6 +30,8 @@ exports.createInforAddress = async(req, res) => {
         });
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 }
 
@@ -70,6 +72,8 @@ exports.updateInforAddress = async(req, res) => {
         }
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 }
 
@@ -92,6 +96,8 @@ exports.getInforAddresss = async(req, res) => {
         });
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 }
 
@@ -112,5 +118,7 @@ exports.deleteInforAddresss = async(req, res) => {
         });
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 }
