@@ -57,10 +57,12 @@ const Product = mongoose.model('Product', new mongoose.Schema({
     size: [{
         type: Schema.Types.ObjectId,
         ref: Size,
+        default: []
     }],
     color: [{
         type: Schema.Types.ObjectId,
         ref: Color,
+        default: []
     }],
 
 },{versionKey: false }));
