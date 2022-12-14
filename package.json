@@ -1,24 +1,14 @@
 {
-  "name": "@myle1003/clothing-store-manager",
+  "name": "pbl6",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "publishConfig": {
-    "@myle1003:registry": "https://npm.pkg.github.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/myle1003/clothing-store-manager"
-  },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@myle1003/clothing-store-manager": "^1.0.0",
-    "@sentry/node": "^7.24.1",
-    "@sentry/tracing": "^7.24.1",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.32.0",
     "cors": "^2.8.5",
@@ -34,7 +24,6 @@
     "node-schedule": "^2.1.0",
     "nodemailer": "^6.8.0",
     "passport": "^0.6.0",
-    "slugify": "^1.6.5",
-    "winston": "^3.8.2"
+    "slugify": "^1.6.5"
   }
 }
