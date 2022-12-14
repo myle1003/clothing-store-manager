@@ -10,6 +10,8 @@ router.get('/province', async function(req, res) {
         return res.send(province);
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 })
 
@@ -20,6 +22,8 @@ router.get('/district/:province', async function(req, res) {
         return res.send(district);
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 })
 
@@ -29,6 +33,8 @@ router.get('/commune/:district', async function(req, res) {
         return res.send(commune);
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 })
 

@@ -19,5 +19,7 @@ exports.getRate = async function(req, res) {
         });
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 }

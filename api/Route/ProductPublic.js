@@ -57,6 +57,8 @@ router.get('/count/:slug', async function(req, res) {
 
         }
     } catch (e) {
+        logger.info(e);
+        logger.error(e);
         res.send(e);
     }
 })

@@ -10,6 +10,8 @@ exports.getPaymentMethod = async function(req, res) {
         });
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 }
 
@@ -31,6 +33,8 @@ exports.createPaymentMethod = async function(req, res) {
         });
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 }
 
@@ -41,6 +45,8 @@ exports.deletePaymentMethod = async function(req, res) {
         res.send({ message: 'Success' });
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 }
 
@@ -62,5 +68,7 @@ exports.editPaymentMethod = async function(req, res) {
         });
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 }

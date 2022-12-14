@@ -170,6 +170,8 @@ router.post('/discount', async function(req, res) {
             })
             res.status(200).send(dc);
         } catch (e) {
+            logger.info(e);
+            logger.error(e);
             res.status(400).json({
                 message: 'Something went wrong!',
                 token: "",

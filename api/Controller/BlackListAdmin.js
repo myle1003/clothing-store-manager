@@ -35,6 +35,8 @@ exports.createBlackList = async(req, res) => {
         
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 }
 
@@ -48,6 +50,8 @@ exports.getBlackList = async function(req, res) {
         });
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 }
 
@@ -68,6 +72,8 @@ exports.checkBlackList = async function(req, res) {
         }
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 }
 
@@ -78,5 +84,7 @@ exports.deleteBalckList = async function(req, res) {
         res.send({ message: 'Success' });
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 }

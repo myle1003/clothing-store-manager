@@ -15,6 +15,8 @@ router.get('/', auth, async function(req, res) {
         }
         res.status(200).send({ cart: cart, price: price });
     } catch (e) {
+        logger.info(e);
+        logger.error(e);
         res.status(200).send({message:'error'})
     }
 })
@@ -52,6 +54,8 @@ router.post('/insert', auth, async function(req, res) {
         // const cartAfter = await Cart.findOne({id_user:req.user.id}).populate('product.id_product',['name','price']).populate('product.color',['name']).populate('product.size',['name'])
         res.status(200).send({ message: 'Success' });
     } catch (e) {
+        logger.info(e);
+        logger.error(e);
         console.log(e)
         res.send(e);
     }
@@ -72,6 +76,8 @@ router.put('/update', auth, async function(req, res) {
         res.status(200).send({ cart: cartAfter, price: price });
     } catch (e) {
         res.send(e);
+        logger.info(e);
+        logger.error(e);
     }
 })
 router.delete('/delete/:id', auth, async function(req, res) {

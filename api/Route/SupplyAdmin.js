@@ -22,6 +22,8 @@ router.post('/insert', async function(req, res) {
         supply = await supply.save();
         res.status(200).send(supply);
     } catch (e) {
+        logger.info(e);
+        logger.error(e);
         res.status(400).send({messsage:'error'});
     }
 })
@@ -36,6 +38,8 @@ router.delete('/delete/:id', async function(req, res) {
             res.status(200).send({ message: 'Delete successful' })
         }
     } catch (e) {
+        logger.info(e);
+        logger.error(e);
         res.status(400).send({messsage:'error'});
     }
 })
@@ -71,6 +75,8 @@ router.get('/representative/:id', async function(req, res) {
         const representative = await Representative.findById(req.params.id);
         return res.status(200).send({ representative: representative });
     } catch (e) {
+        logger.info(e);
+        logger.error(e);
         res.status(400).send({messsage:'error'});
     }
 })
@@ -87,6 +93,8 @@ router.put('/update/:id', async function(req, res) {
         // let supply = new Supply({name:req.body.name,phone:req.body.phone,street:req.body.street,id_commune:req.body.id_commune,id_representative:req.body.id_representative});
         res.status(200).send(supply);
     } catch (e) {
+        logger.error(e);
+        logger.info(e);
         res.status(400).send(e);
     }
 })
