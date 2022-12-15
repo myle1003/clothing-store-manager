@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const {cloudinary} = require('../storage');
+const { cloudinary } = require('../storage');
 const upload = require('../multer');
 
 const router = express.Router();
@@ -20,13 +20,13 @@ const CateAdmin = require('../Controller/CateAdmin');
 // router.delete('/delete/:id',auth,CheckRole('deleteAny','Category'),CateAdmin.deleteCate)
 
 // get list category
-router.get('/all',CateAdmin.GetListCate);
+router.get('/all', CateAdmin.GetListCate);
 //get by Id
-router.get('/detail/:slug',CateAdmin.GetCateDetail);
+router.get('/detail/:slug', CateAdmin.GetCateDetail);
 // thêm category
-router.post('/insert',CateAdmin.InsertCate)
-// update cate
-router.put('/update/:slug',CateAdmin.UpdateCate)
-// Delete cate
-router.delete('/delete/:id',CateAdmin.deleteCate)
+router.post('/insert', CateAdmin.InsertCate)
+    // update cate
+router.put('/update/:slug', CateAdmin.UpdateCate)
+    // Delete cate
+router.delete('/delete/:id', CateAdmin.deleteCate)
 module.exports = router;

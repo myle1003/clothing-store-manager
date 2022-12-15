@@ -3,7 +3,6 @@ const router = express.Router();
 const { Commune } = require("../Model/Commune");
 const { District } = require('../Model/District');
 const { Province } = require('../Model/Province');
-const {logger} = require('../logger/logger');
 
 router.get('/province', async function(req, res) {
     try {
@@ -11,8 +10,6 @@ router.get('/province', async function(req, res) {
         return res.send(province);
     } catch (e) {
         res.send(e);
-        logger.info(e);
-        logger.error(e);
     }
 })
 
@@ -23,8 +20,6 @@ router.get('/district/:province', async function(req, res) {
         return res.send(district);
     } catch (e) {
         res.send(e);
-        logger.info(e);
-        logger.error(e);
     }
 })
 
@@ -34,8 +29,6 @@ router.get('/commune/:district', async function(req, res) {
         return res.send(commune);
     } catch (e) {
         res.send(e);
-        logger.info(e);
-        logger.error(e);
     }
 })
 

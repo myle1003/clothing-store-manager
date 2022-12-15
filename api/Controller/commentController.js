@@ -1,6 +1,6 @@
 const Comment = require('../Model/Comment');
 const Rate = require('../Model/Rate');
-const {logger} = require('../logger/logger');
+
 
 //------------ Create ------------//
 exports.createComment = async(req, res) => {
@@ -47,8 +47,6 @@ exports.createComment = async(req, res) => {
         });
     } catch (e) {
         res.send(e);
-        logger.info(e);
-        logger.error(e);
     }
 }
 
@@ -86,8 +84,6 @@ exports.updateComment = async(req, res) => {
         });
     } catch (e) {
         res.send(e);
-        logger.info(e);
-        logger.error(e);
     }
 }
 
@@ -101,7 +97,5 @@ exports.getComment = async function(req, res) {
         });
     } catch (e) {
         res.send(e);
-        logger.info(e);
-        logger.error(e);
     }
 }
