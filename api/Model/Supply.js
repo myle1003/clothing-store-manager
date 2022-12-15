@@ -37,7 +37,7 @@ const Supply = mongoose.model('Supply',new mongoose.Schema({
     listProduct:[{
         type: Schema.Types.ObjectId,
         ref: Product,
-        // default: []
+        default: []
     }],
     image:{
         type: String,

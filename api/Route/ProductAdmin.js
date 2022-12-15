@@ -10,7 +10,6 @@ var schedule = require('node-schedule');
 const Rate = require('../Model/Rate');
 const { Size } = require('../Model/Size');
 const { Color } = require('../Model/Color');
-const {logger} = require('../logger/logger');
 
 const router = express.Router();
 
@@ -171,8 +170,6 @@ router.post('/discount', async function(req, res) {
             })
             res.status(200).send(dc);
         } catch (e) {
-            logger.info(e);
-            logger.error(e);
             res.status(400).json({
                 message: 'Something went wrong!',
                 token: "",

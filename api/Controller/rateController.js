@@ -1,6 +1,6 @@
 const Rate = require('../Model/Rate');
 const auth = require('../middleware/auth');
-const {logger} = require('../logger/logger');
+
 // const { District } = require('../Model/District');
 
 
@@ -19,7 +19,5 @@ exports.getRate = async function(req, res) {
         });
     } catch (e) {
         res.send(e);
-        logger.info(e);
-        logger.error(e);
     }
 }
